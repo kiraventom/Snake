@@ -16,7 +16,8 @@ namespace SnakeGame
         }
 
         static Game _game { get; set; }
-        static int CurrentScore { get; set; } = 2;
+        static int CurrentScore { get; set; }
+        static double CurrentSpeed { get; set; }
 
         static void Main(string[] args)
         {
@@ -31,6 +32,8 @@ namespace SnakeGame
         private static bool StartGame()
         {
             _game = new Game(10, 20);
+            CurrentScore = 2;
+            CurrentSpeed = 1.0;
             var direction = Snake.Direction.Up;
             ConsoleKey? lastKeyPressed = null;
             while (true)
@@ -72,6 +75,7 @@ namespace SnakeGame
                         return false;
                     case Game.GameEvent.Upscore:
                         CurrentScore++;
+                        CurrentSpeed += 0.1;
                         if (CurrentScore > Properties.Settings.Default.HighScore)
                         {
                             Properties.Settings.Default.HighScore = CurrentScore;
@@ -83,7 +87,7 @@ namespace SnakeGame
                     
                 }
                 Update(_game.Field);
-                Thread.Sleep(TimeSpan.FromSeconds(0.25));
+                Thread.Sleep((int)(500 / CurrentSpeed));
             }
         }
 
