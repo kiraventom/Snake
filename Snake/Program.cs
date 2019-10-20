@@ -32,7 +32,8 @@ namespace SnakeGame
 
         private static bool StartGame()
         {
-            _game = new Game(20, 20);
+            const int size = 20;
+            _game = new Game(size, size);
             CurrentScore = 2;
             CurrentSpeed = 2.0;
             var direction = Snake.Direction.Up;
@@ -93,7 +94,7 @@ namespace SnakeGame
 
         private static void Update(Field field)
         {
-            DrawBorders(field.Height, field.Width);
+            DrawBorders(field.Height, field.Width * 2);
             Console.Write($"\nHigh Score: {Properties.Settings.Default.HighScore}");
             Console.Write($"\nYour Score: {CurrentScore}");
             DrawSnake(field.Snake);
@@ -104,7 +105,7 @@ namespace SnakeGame
         private static void DrawFood(Field field)
         {
             var food = field.Blocks.Cast<Block>().Single(block => block is FoodBlock);
-            Console.SetCursorPosition(food.Coords.Column + 1, food.Coords.Row + 1);
+            Console.SetCursorPosition((food.Coords.Column * 2) + 1, food.Coords.Row + 1);
             Console.Write(Constants.Chars.Extra.Food);
         }
 
@@ -112,23 +113,23 @@ namespace SnakeGame
         {
             for (int i = 0; i < snake.Blocks.Count; ++i)
             {
-                Console.SetCursorPosition(snake.Blocks[i].Coords.Column + 1, snake.Blocks[i].Coords.Row + 1);
-                char c = 'e';
+                Console.SetCursorPosition((snake.Blocks[i].Coords.Column * 2) + 1, snake.Blocks[i].Coords.Row + 1);
+                string s = "";
                 if (i == 0)
                 {
                     switch (snake.CurrentHeadDirection)
                     {
                         case Snake.Direction.Up:
-                            c = Constants.Chars.Snake.Head.N;
+                            s = Constants.Chars.Snake.Head.N.ToString();
                             break;
                         case Snake.Direction.Down:
-                            c = Constants.Chars.Snake.Head.S;
+                            s = Constants.Chars.Snake.Head.S.ToString();
                             break;
                         case Snake.Direction.Left:
-                            c = Constants.Chars.Snake.Head.W;
+                            s = Constants.Chars.Snake.Body.WE.ToString() + Constants.Chars.Snake.Head.W.ToString();
                             break;
                         case Snake.Direction.Right:
-                            c = Constants.Chars.Snake.Head.E;
+                            s = Constants.Chars.Snake.Head.E.ToString() + Constants.Chars.Snake.Body.WE.ToString();
                             break;
                     }
                 }
@@ -138,16 +139,16 @@ namespace SnakeGame
                     switch (snake.CurrentTailDirection.Value)
                     {
                         case Snake.Direction.Up:
-                            c = Constants.Chars.Snake.Tail.N;
+                            s = Constants.Chars.Snake.Tail.N.ToString();
                             break;
                         case Snake.Direction.Down:
-                            c = Constants.Chars.Snake.Tail.S;
+                            s = Constants.Chars.Snake.Tail.S.ToString();
                             break;
                         case Snake.Direction.Left:
-                            c = Constants.Chars.Snake.Tail.W;
+                            s = Constants.Chars.Snake.Tail.W.ToString() + Constants.Chars.Snake.Body.WE.ToString();
                             break;
                         case Snake.Direction.Right:
-                            c = Constants.Chars.Snake.Tail.E;
+                            s = Constants.Chars.Snake.Body.WE.ToString() + Constants.Chars.Snake.Tail.E.ToString();
                             break;
                     }
                 }
@@ -155,13 +156,13 @@ namespace SnakeGame
                 if (snake.Blocks[i].Coords.Row == snake.Blocks[i - 1].Coords.Row &&
                     snake.Blocks[i].Coords.Row == snake.Blocks[i + 1].Coords.Row)
                 {
-                    c = Constants.Chars.Snake.Body.WE;
+                    s = Constants.Chars.Snake.Body.WE.ToString() + Constants.Chars.Snake.Body.WE.ToString();
                 }
                 else
                 if (snake.Blocks[i].Coords.Column == snake.Blocks[i - 1].Coords.Column &&
                     snake.Blocks[i].Coords.Column == snake.Blocks[i + 1].Coords.Column)
                 {
-                    c = Constants.Chars.Snake.Body.NS;
+                    s = Constants.Chars.Snake.Body.NS.ToString();
                 }
                 else
                 if (snake.Blocks[i].Coords.Column > snake.Blocks[i - 1].Coords.Column &&
@@ -169,7 +170,7 @@ namespace SnakeGame
                     snake.Blocks[i].Coords.Column > snake.Blocks[i + 1].Coords.Column &&
                     snake.Blocks[i].Coords.Row > snake.Blocks[i - 1].Coords.Row)
                 {
-                    c = Constants.Chars.Snake.Body.NW;
+                    s = Constants.Chars.Snake.Body.NW.ToString();
                 }
                 else
                 if (snake.Blocks[i].Coords.Column < snake.Blocks[i - 1].Coords.Column &&
@@ -177,7 +178,7 @@ namespace SnakeGame
                     snake.Blocks[i].Coords.Column < snake.Blocks[i + 1].Coords.Column &&
                     snake.Blocks[i].Coords.Row > snake.Blocks[i - 1].Coords.Row)
                 {
-                    c = Constants.Chars.Snake.Body.NE;
+                    s = Constants.Chars.Snake.Body.NE.ToString() + Constants.Chars.Snake.Body.WE.ToString();
                 }
                 else
                 if (snake.Blocks[i].Coords.Column > snake.Blocks[i - 1].Coords.Column &&
@@ -185,14 +186,14 @@ namespace SnakeGame
                     snake.Blocks[i].Coords.Column > snake.Blocks[i + 1].Coords.Column &&
                     snake.Blocks[i].Coords.Row < snake.Blocks[i - 1].Coords.Row)
                 {
-                    c = Constants.Chars.Snake.Body.SW;
+                    s = Constants.Chars.Snake.Body.SW.ToString();
                 }
                 else
                 {
-                    c = Constants.Chars.Snake.Body.SE;
+                    s = Constants.Chars.Snake.Body.SE.ToString() + Constants.Chars.Snake.Body.WE.ToString();
                 }
 
-                Console.Write(c);
+                Console.Write(s);
             }
         }
 
