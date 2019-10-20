@@ -165,26 +165,50 @@ namespace SnakeGame
                     s = Constants.Chars.Snake.Body.NS.ToString();
                 }
                 else
-                if (snake.Blocks[i].Coords.Column > snake.Blocks[i - 1].Coords.Column &&
-                    snake.Blocks[i].Coords.Row > snake.Blocks[i + 1].Coords.Row ||
-                    snake.Blocks[i].Coords.Column > snake.Blocks[i + 1].Coords.Column &&
-                    snake.Blocks[i].Coords.Row > snake.Blocks[i - 1].Coords.Row)
+                if (snake.Blocks[i].Coords.Column - snake.Blocks[i - 1].Coords.Column == 1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i + 1].Coords.Row == 1 ||
+                    snake.Blocks[i].Coords.Column - snake.Blocks[i + 1].Coords.Column == 1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i - 1].Coords.Row == 1 ||
+                    snake.Blocks[i].Coords.Column - snake.Blocks[i - 1].Coords.Column < -1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i + 1].Coords.Row == 1 ||
+                    snake.Blocks[i].Coords.Column - snake.Blocks[i + 1].Coords.Column < -1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i - 1].Coords.Row == 1 ||
+                    snake.Blocks[i].Coords.Column - snake.Blocks[i - 1].Coords.Column == 1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i + 1].Coords.Row < -1 ||
+                    snake.Blocks[i].Coords.Column - snake.Blocks[i + 1].Coords.Column == 1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i - 1].Coords.Row < -1)
                 {
                     s = Constants.Chars.Snake.Body.NW.ToString();
                 }
                 else
-                if (snake.Blocks[i].Coords.Column < snake.Blocks[i - 1].Coords.Column &&
-                    snake.Blocks[i].Coords.Row > snake.Blocks[i + 1].Coords.Row ||
-                    snake.Blocks[i].Coords.Column < snake.Blocks[i + 1].Coords.Column &&
-                    snake.Blocks[i].Coords.Row > snake.Blocks[i - 1].Coords.Row)
+                if (snake.Blocks[i].Coords.Column - snake.Blocks[i - 1].Coords.Column == -1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i + 1].Coords.Row == 1||
+                    snake.Blocks[i].Coords.Column - snake.Blocks[i + 1].Coords.Column == -1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i - 1].Coords.Row == 1|| 
+                    snake.Blocks[i].Coords.Column - snake.Blocks[i - 1].Coords.Column > 1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i + 1].Coords.Row == 1 ||
+                    snake.Blocks[i].Coords.Column - snake.Blocks[i + 1].Coords.Column > 1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i - 1].Coords.Row == 1 ||
+                    snake.Blocks[i].Coords.Column - snake.Blocks[i - 1].Coords.Column == -1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i + 1].Coords.Row < -1 ||
+                    snake.Blocks[i].Coords.Column - snake.Blocks[i + 1].Coords.Column == -1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i - 1].Coords.Row < -1)
                 {
                     s = Constants.Chars.Snake.Body.NE.ToString() + Constants.Chars.Snake.Body.WE.ToString();
                 }
                 else
-                if (snake.Blocks[i].Coords.Column > snake.Blocks[i - 1].Coords.Column &&
-                    snake.Blocks[i].Coords.Row < snake.Blocks[i + 1].Coords.Row ||
-                    snake.Blocks[i].Coords.Column > snake.Blocks[i + 1].Coords.Column &&
-                    snake.Blocks[i].Coords.Row < snake.Blocks[i - 1].Coords.Row)
+                if (snake.Blocks[i].Coords.Column - snake.Blocks[i - 1].Coords.Column == 1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i + 1].Coords.Row == -1 ||
+                    snake.Blocks[i].Coords.Column - snake.Blocks[i + 1].Coords.Column == 1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i - 1].Coords.Row == -1 ||
+                    snake.Blocks[i].Coords.Column - snake.Blocks[i - 1].Coords.Column < -1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i + 1].Coords.Row == -1 ||
+                    snake.Blocks[i].Coords.Column - snake.Blocks[i + 1].Coords.Column < -1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i - 1].Coords.Row == -1 ||
+                    snake.Blocks[i].Coords.Column - snake.Blocks[i - 1].Coords.Column == 1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i + 1].Coords.Row > 1 ||
+                    snake.Blocks[i].Coords.Column - snake.Blocks[i + 1].Coords.Column == 1 &&
+                    snake.Blocks[i].Coords.Row - snake.Blocks[i - 1].Coords.Row > 1)
                 {
                     s = Constants.Chars.Snake.Body.SW.ToString();
                 }
