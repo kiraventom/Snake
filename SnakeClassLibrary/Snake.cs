@@ -94,7 +94,7 @@ namespace SnakeClassLibrary
             private set => Blocks[Blocks.Count - 1] = value;
         }
         public Direction CurrentHeadDirection;
-        private Direction? CurrentTailDirection
+        public Direction? CurrentTailDirection
         {
             get
             {

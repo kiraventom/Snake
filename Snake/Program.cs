@@ -12,6 +12,7 @@ namespace SnakeGame
     {
         static Program()
         {
+            Console.OutputEncoding = Encoding.UTF8;
             Console.CursorVisible = false;
         }
 
@@ -31,9 +32,9 @@ namespace SnakeGame
 
         private static bool StartGame()
         {
-            _game = new Game(10, 20);
+            _game = new Game(20, 20);
             CurrentScore = 2;
-            CurrentSpeed = 1.0;
+            CurrentSpeed = 2.0;
             var direction = Snake.Direction.Up;
             ConsoleKey? lastKeyPressed = null;
             while (true)
@@ -84,7 +85,6 @@ namespace SnakeGame
                         break;
                     default:
                         break;
-                    
                 }
                 Update(_game.Field);
                 Thread.Sleep((int)(500 / CurrentSpeed));
@@ -110,10 +110,89 @@ namespace SnakeGame
 
         private static void DrawSnake(Snake snake)
         {
-            foreach (SnakeBlock block in snake.Blocks)
+            for (int i = 0; i < snake.Blocks.Count; ++i)
             {
-                Console.SetCursorPosition(block.Coords.Column + 1, block.Coords.Row + 1);
-                Console.Write(Constants.Chars.Snake);
+                Console.SetCursorPosition(snake.Blocks[i].Coords.Column + 1, snake.Blocks[i].Coords.Row + 1);
+                char c = 'e';
+                if (i == 0)
+                {
+                    switch (snake.CurrentHeadDirection)
+                    {
+                        case Snake.Direction.Up:
+                            c = Constants.Chars.Snake.Head.N;
+                            break;
+                        case Snake.Direction.Down:
+                            c = Constants.Chars.Snake.Head.S;
+                            break;
+                        case Snake.Direction.Left:
+                            c = Constants.Chars.Snake.Head.W;
+                            break;
+                        case Snake.Direction.Right:
+                            c = Constants.Chars.Snake.Head.E;
+                            break;
+                    }
+                }
+                else
+                if (i == snake.Blocks.Count - 1)
+                {
+                    switch (snake.CurrentTailDirection.Value)
+                    {
+                        case Snake.Direction.Up:
+                            c = Constants.Chars.Snake.Tail.N;
+                            break;
+                        case Snake.Direction.Down:
+                            c = Constants.Chars.Snake.Tail.S;
+                            break;
+                        case Snake.Direction.Left:
+                            c = Constants.Chars.Snake.Tail.W;
+                            break;
+                        case Snake.Direction.Right:
+                            c = Constants.Chars.Snake.Tail.E;
+                            break;
+                    }
+                }
+                else
+                if (snake.Blocks[i].Coords.Row == snake.Blocks[i - 1].Coords.Row &&
+                    snake.Blocks[i].Coords.Row == snake.Blocks[i + 1].Coords.Row)
+                {
+                    c = Constants.Chars.Snake.Body.WE;
+                }
+                else
+                if (snake.Blocks[i].Coords.Column == snake.Blocks[i - 1].Coords.Column &&
+                    snake.Blocks[i].Coords.Column == snake.Blocks[i + 1].Coords.Column)
+                {
+                    c = Constants.Chars.Snake.Body.NS;
+                }
+                else
+                if (snake.Blocks[i].Coords.Column > snake.Blocks[i - 1].Coords.Column &&
+                    snake.Blocks[i].Coords.Row > snake.Blocks[i + 1].Coords.Row ||
+                    snake.Blocks[i].Coords.Column > snake.Blocks[i + 1].Coords.Column &&
+                    snake.Blocks[i].Coords.Row > snake.Blocks[i - 1].Coords.Row)
+                {
+                    c = Constants.Chars.Snake.Body.NW;
+                }
+                else
+                if (snake.Blocks[i].Coords.Column < snake.Blocks[i - 1].Coords.Column &&
+                    snake.Blocks[i].Coords.Row > snake.Blocks[i + 1].Coords.Row ||
+                    snake.Blocks[i].Coords.Column < snake.Blocks[i + 1].Coords.Column &&
+                    snake.Blocks[i].Coords.Row > snake.Blocks[i - 1].Coords.Row)
+                {
+                    c = Constants.Chars.Snake.Body.NE;
+                }
+                else
+                if (snake.Blocks[i].Coords.Column > snake.Blocks[i - 1].Coords.Column &&
+                    snake.Blocks[i].Coords.Row < snake.Blocks[i + 1].Coords.Row ||
+                    snake.Blocks[i].Coords.Column > snake.Blocks[i + 1].Coords.Column &&
+                    snake.Blocks[i].Coords.Row < snake.Blocks[i - 1].Coords.Row)
+                {
+                    c = Constants.Chars.Snake.Body.SW;
+                }
+                else
+                {
+                    c = Constants.Chars.Snake.Body.SE;
+                }
+
+                Console.Write(c);
             }
         }
 
